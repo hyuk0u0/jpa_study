@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Board {
+public class Board extends BaseEntity {
     @Id
     @GeneratedValue
     private Long BoardNo;
@@ -25,11 +25,5 @@ public class Board {
     @Column(nullable = false, length = 40)
     private String BoardUserName;
 
-    @Column(updatable = false)
-    @CreationTimestamp
-    private LocalDateTime regDt;
 
-    @Column(insertable = false)
-    @UpdateTimestamp
-    private LocalDateTime modDt;
 }

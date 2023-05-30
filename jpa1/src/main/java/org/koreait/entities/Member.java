@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name="users", indexes = {
         @Index(name="idx_member_userNm", columnList = "userNm")
 }) // 테이블 명이 users로 생성
-public class Member {
+public class Member extends BaseEntity {
     @Id
     //@TableGenerator(name="user_seq")
     //@GeneratedValue(strategy = GenerationType.TABLE)
@@ -35,13 +35,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
-    @Column(updatable = false) // 수정 불가
-    @CreationTimestamp // INSERT 쿼리시 자동으로 현재 날짜와 시간이 추가
-    private LocalDateTime regDt; // 회원 가입일시
-
-    @Column(insertable = false) // 추가 불가
-    @UpdateTimestamp  // UPDATE 쿼리시 자동으로 현재 날짜와 시간이 수정
-    private LocalDateTime modDt; // 회원 정보 수정일시
 
     @Temporal(TemporalType.DATE) // 날짜
     private Date BirthDt;
