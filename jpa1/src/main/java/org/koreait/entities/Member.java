@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.koreait.constants.MemberType;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,18 +20,29 @@ public class Member {
     //@GeneratedValue(strategy = GenerationType.TABLE)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userNo; // 회원번호
+    @Column(unique = true, nullable = false, length = 40)
     private String userId; // 회원 아이디
+    @Column(name = "userPass", nullable = false, length = 65) // 실제 테이블의 필드명 userPass
     private String userPw; // 회원 비밀번호
+    @Column(nullable = false, length = 40)
     private String userNm; // 회원명
 
     @Lob // String - CLOB
+//    @Transient // 엔티티 내부에서만 사용되는 항목 - 테이블 필드로 반영 X
     private String introduction; // 자기소개
 
-    @Enumerated
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
+    @Column(updatable = false) // 수정 불가
     @CreationTimestamp // INSERT 쿼리시 자동으로 현재 날짜와 시간이 추가
     private LocalDateTime regDt; // 회원 가입일시
+
+    @Column(insertable = false) // 추가 불가
     @UpdateTimestamp  // UPDATE 쿼리시 자동으로 현재 날짜와 시간이 수정
     private LocalDateTime modDt; // 회원 정보 수정일시
+
+    @Temporal(TemporalType.DATE) // 날짜
+    private Date BirthDt;
 }
