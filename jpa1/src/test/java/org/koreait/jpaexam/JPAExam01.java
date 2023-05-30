@@ -1,6 +1,7 @@
 package org.koreait.jpaexam;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.koreait.entities.Member;
@@ -59,5 +60,14 @@ public class JPAExam01 {
     void ex02() {
         Member member = em.find(Member.class, 1L);
         System.out.println(member);
+
+        // 엔티티 기준의 쿼리문
+        String sql = "SELECT m FROM Member m WHERE m.userId=:userId";
+
+        TypedQuery<Member> tq = em.createQuery(sql, Member.class);
+        tq.setParameter("userId", "user01");
+
+        Member mem = tq.getSingleResult();
+        System.out.println(mem);
     }
 }
