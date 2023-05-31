@@ -38,4 +38,5 @@ public class Member extends BaseEntity {
 
     @Temporal(TemporalType.DATE) // 날짜
     private Date BirthDt;
+
 }
