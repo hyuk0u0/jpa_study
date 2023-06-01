@@ -108,4 +108,12 @@ public class JPAExam2Controller {
         String addr = address.getAddress();
         log.info(addr);
     }
+
+    @GetMapping("/ex08")
+    public void ex08() {
+        Address address = addressRepository.findById(1L).orElse(null);
+        Member member = address.getMember();
+        String userId = member.getUserId();
+        log.info(userId);
+    }
 }

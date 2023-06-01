@@ -1,10 +1,7 @@
 package org.koreait.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -53,5 +50,6 @@ public class Member extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
+    @ToString.Exclude
     private Address address;
 }
