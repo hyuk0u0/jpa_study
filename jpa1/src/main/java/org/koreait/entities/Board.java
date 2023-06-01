@@ -3,6 +3,8 @@ package org.koreait.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -24,6 +26,11 @@ public class Board extends BaseEntity {
 
     @Column(nullable = false, length = 40)
     private String BoardUserName;
+
+    @ManyToOne
+    @JoinColumn(name="user_no")
+    @ToString.Exclude // 배제
+    private Member member;
 
 
 }

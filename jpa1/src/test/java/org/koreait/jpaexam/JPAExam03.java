@@ -1,17 +1,24 @@
 package org.koreait.jpaexam;
 
+import com.querydsl.core.BooleanBuilder;
 import org.junit.jupiter.api.Test;
 import org.koreait.constants.MemberType;
 import org.koreait.entities.Member;
+import org.koreait.entities.QMember;
 import org.koreait.repositories.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.*;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -88,8 +95,24 @@ public class JPAExam03 {
 //        System.out.println(member);
 //        List<Member> members = memberRepository.findByUserNmContaining("용");
 //        List<Member> members = memberRepository.findByUserNmContainingOrderByRegDtDesc("용");
-        List<Member> members = memberRepository.getUsers("용");
+//        List<Member> members = memberRepository.getUsers("용");
+//        Pageable pageable = PageRequest.of(0, 3);
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(desc("regDt"), asc("userNm")));
+        List<Member> members = memberRepository.findByUserNmContaining("용", pageable);
         members.stream().forEach(System.out::println);
 
+    }
+
+    @Test
+    void ex04() {
+        BooleanBuilder builder = new BooleanBuilder();
+        QMember member = QMember.member;
+        builder.and(member.userId.contains("ser")).and(member.userNm.contains("용"));
+
+        List<Member> members = (List<Member>) memberRepository.findAll(builder);
+        members.stream().forEach(System.out::println);
+
+//        Member mem = memberRepository.findOne(member.userId.eq("user1")).orElse(null);
+//        System.out.println(mem);
     }
 }
