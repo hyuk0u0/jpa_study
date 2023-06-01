@@ -2,9 +2,7 @@ package org.koreait.entities;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,25 +10,27 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Board extends BaseEntity {
     @Id
     @GeneratedValue
-    private Long BoardNo;
+    private Long boardNo;
 
     @Column(nullable = false)
-    private String BoardSubject;
+    private String boardSubject;
 
     @Lob
     @Column(nullable = false)
-    private String BoardContent;
+    private String boardContent;
 
     @Column(nullable = false, length = 40)
-    private String BoardUserName;
+    private String boardUserName;
 
-    @ManyToOne
-    @JoinColumn(name="user_no")
-    @ToString.Exclude // 배제
+    @ManyToOne(fetch=FetchType.LAZY) // 지연 로딩
+    @JoinColumn(name = "user_no")
+    @ToString.Exclude
     private Member member;
-
 
 }

@@ -62,7 +62,7 @@ public class JPAExam1Controller {
     @GetMapping("/ex03")
     public void ex03() {
         Member member = memberRepository.findByUserId("user01");
-        List<Board> board = member.getBoards(); // 회원이 작성한 게시글 조회
-        board.stream().forEach(System.out::println);
+//        List<Board> board = member.getBoards(); // 회원이 작성한 게시글 조회
+//        board.stream().forEach(System.out::println);
     }
 }
