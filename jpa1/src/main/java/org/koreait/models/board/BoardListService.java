@@ -4,8 +4,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.koreait.entities.Board;
-import org.koreait.entities.QBoard;
+import org.koreait.entities.BoardData;
+import org.koreait.entities.QBoardData;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,15 +16,16 @@ public class BoardListService {
 
     private final EntityManager em;
 
-    public List<Board> gets() {
+
+    public List<BoardData> gets() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QBoard board = QBoard.board;
+        QBoardData boardData = QBoardData.boardData;
 
-        JPAQuery<Board> query = queryFactory.selectFrom(board)
-                .leftJoin(board.member)
-                .fetchJoin();
+        JPAQuery<BoardData> query = queryFactory.selectFrom(boardData)
+                                             .leftJoin(boardData.member)
+                                             .fetchJoin();
 
-        List<Board> items = query.fetch();
+        List<BoardData> items = query.fetch();
         return items;
     }
 }

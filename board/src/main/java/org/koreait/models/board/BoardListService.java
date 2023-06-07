@@ -14,12 +14,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BoardListService {
+
     private final EntityManager em;
     private final BoardDataRepository repository;
 
     public List<BoardData> gets() {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QBoardData boardData = QBoardData.boardData;
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         JPAQuery<BoardData> query = queryFactory.selectFrom(boardData)
                 .leftJoin(boardData.member)

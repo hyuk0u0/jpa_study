@@ -1,14 +1,20 @@
 package org.koreait.configs;
 
-import org.koreait.controllers.member.LoginFailureHandler;
+import org.koreait.models.member.LoginFailureHandler;
 import org.koreait.models.member.LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.io.IOException;
 
 @Configuration
 public class SecurityConfig {
@@ -16,14 +22,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin(f -> f
-                        .loginPage("/member/login")
-                        .usernameParameter("userId")
-                        .passwordParameter("userPw")
-                        //.defaultSuccessUrl("/")  // 로그인 성공시 유입될 URL
-                        //.failureUrl("/member/login") // 로그인 실패시 유입될 URL
+                .loginPage("/member/login")
+                .usernameParameter("userId")
+                .passwordParameter("userPw")
+                //.defaultSuccessUrl("/")  // 로그인 성공시 유입될 URL
+                //.failureUrl("/member/login") // 로그인 실패시 유입될 URL
                         .failureHandler(new LoginFailureHandler())
                         .successHandler(new LoginSuccessHandler())
-                )
+             )
                 .logout(f -> f
                         .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공시 URL
@@ -35,7 +41,28 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
         );
 
+        http.exceptionHandling(f -> f
+                .authenticationEntryPoint((req, res, e) -> {
+                        String URI = req.getRequestURI(); // 현재 접속한 경로
+                        if (URI.indexOf("/admin") != -1) { // 관리자 - 401
+                            // 401 에러 페이지
+                            res.sendError(401, "NOT AUTHORIZED");
+                            return;
+                        }
+
+                        // 회원 전용 페이지 - 로그인 페이지
+                        String url = req.getContextPath() + "/member/login";
+                        res.sendRedirect(url);
+                    }
+                ));
+
         return http.build();
+    }
+
+    // 스프링 시큐리티 미적용 URL 패턴
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+       return w -> w.ignoring().requestMatchers("/css/**", "/js/**", "/images/**", "/upload/**");
     }
 
     @Bean

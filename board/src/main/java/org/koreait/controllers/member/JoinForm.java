@@ -24,7 +24,6 @@ public class JoinForm {
 
     @Email
     private String email;
-
     private String mobile;
 
     @AssertTrue

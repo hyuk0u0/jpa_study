@@ -2,11 +2,11 @@ package org.koreait.commons.validators;
 
 public interface MobileValidator {
     default boolean mobileCheck(String mobile) {
-        /*
-        숫자만 남긴다
-        패턴
+        /**
+         * 1. 숫자만 남긴다
+         * 2. 패턴
          */
-        mobile = mobile.replaceAll("\\D", ""); // 숫자만
+        mobile = mobile.replaceAll("\\D", ""); //  숫자만
 
         String pattern = "^01[016]\\d{3,4}\\d{4}$";
 

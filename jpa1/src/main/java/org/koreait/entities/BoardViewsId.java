@@ -8,7 +8,6 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class BoardViewsId implements Serializable {
-
     private Long id;
     private String uid;
 }

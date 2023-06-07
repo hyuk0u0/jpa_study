@@ -24,6 +24,7 @@ public class MemberInfo implements UserDetails {
 
     private Collection<GrantedAuthority> authorities;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

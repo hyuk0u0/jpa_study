@@ -30,7 +30,8 @@ public class MemberInfoService implements UserDetailsService {
 
         MemberInfo memberInfo = new ModelMapper().map(member, MemberInfo.class);
 
-        List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(member.getType().toString()));
+        List<GrantedAuthority> authorities = Arrays.asList(
+                new SimpleGrantedAuthority(member.getType().toString()));
 
         memberInfo.setAuthorities(authorities);
 

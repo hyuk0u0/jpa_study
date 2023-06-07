@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.properties")
 @Transactional
+@TestPropertySource(locations="classpath:application-test.properties")
 public class JPAExam02 {
 
     @Autowired
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Test
     void ex01() {
@@ -28,17 +28,15 @@ public class JPAExam02 {
         member.setMemberType(MemberType.ADMIN);
         member.setBirthDt(new Date());
 
-        entityManager.persist(member);
-        entityManager.flush();
+        em.persist(member);
+        em.flush();
 
         member.setUserNm("(수정)사용자01");
-        entityManager.flush();
+        em.flush();
 
-        entityManager.detach(member);
+        em.detach(member);
 
-        member = entityManager.find(Member.class, member.getUserNo());
-
+        member = em.find(Member.class, member.getUserNo());
         System.out.println(member);
     }
-
 }

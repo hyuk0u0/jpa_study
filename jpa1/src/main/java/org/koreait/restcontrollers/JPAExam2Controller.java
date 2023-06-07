@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.koreait.constants.MemberType;
 import org.koreait.entities.Address;
-import org.koreait.entities.Board;
+import org.koreait.entities.BoardData;
 import org.koreait.entities.Member;
 import org.koreait.models.board.BoardListService;
 import org.koreait.repositories.AddressRepository;
-import org.koreait.repositories.BoardRepository;
+import org.koreait.repositories.BoardDataRepository;
 import org.koreait.repositories.MemberRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +23,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JPAExam2Controller {
     private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
+    private final BoardDataRepository boardDataRepository;
     private final BoardListService listService;
     private final AddressRepository addressRepository;
+
     private void insertData() {
+
         Address address = Address.builder()
                 .zipcode("10000")
                 .address("주소!")
@@ -45,18 +47,18 @@ public class JPAExam2Controller {
 
         member = memberRepository.saveAndFlush(member);
 
-        List<Board> items = new ArrayList<>();
+        List<BoardData> items = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
-            Board item = Board.builder()
-                    .boardUserName("작성자" + i)
-                    .boardSubject("제목" + i)
-                    .boardContent("내용" + i)
+            BoardData item = BoardData.builder()
+                    .poster("작성자" + i)
+                    .subject("제목" + i)
+                    .content("내용" + i)
                     .member(member)
                     .build();
             items.add(item);
         }
 
-        boardRepository.saveAllAndFlush(items);
+        boardDataRepository.saveAllAndFlush(items);
     }
 
     @GetMapping("/ex01")
@@ -66,39 +68,40 @@ public class JPAExam2Controller {
 
     @GetMapping("/ex02")
     public void ex02() {
-        Board board = boardRepository.findById(1L).orElse(null);
-//        log.info(board.toString());
+        BoardData boardData = boardDataRepository.findById(1L).orElse(null);
+        //log.info(boardData.toString());
 
-        Member member = board.getMember();
-//        String userId = member.getUserId();
-//        log.info(userId);
-//        log.info(member.toString());
+       Member member = boardData.getMember();
+       String userId = member.getUserId();// Member쪽 sql이 실행
+       log.info(userId);
+        //log.info(member.toString());
     }
 
     @GetMapping("/ex03")
     public void ex03() {
         Member member = memberRepository.findById(1L).orElse(null);
-        List<Board> items = member.getBoards();
+        List<BoardData> items = member.getBoardatas();
         items.stream().forEach(System.out::println);
     }
 
     @GetMapping("/ex04")
     public void ex04() {
-        List<Board> items = boardRepository.findAll();
-        for (Board item : items) {
+        List<BoardData> items = boardDataRepository.findAll();
+        for (BoardData item : items) {
             Member member = item.getMember();
             String userId = member.getUserId();
         }
+
     }
 
     @GetMapping("/ex05")
     public void ex05() {
-        List<Board> items = boardRepository.getBoards();
+        List<BoardData> items = boardDataRepository.getBoardDatas();
     }
 
     @GetMapping("/ex06")
     public void ex06() {
-        List<Board> items = listService.gets();
+        List<BoardData> items = listService.gets();
     }
 
     @GetMapping("/ex07")

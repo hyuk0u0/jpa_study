@@ -7,6 +7,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ResourceBundle;
+
 @Configuration
 @EnableJpaAuditing
 public class MvcConfig implements WebMvcConfigurer {
@@ -16,6 +18,8 @@ public class MvcConfig implements WebMvcConfigurer {
         ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
         ms.setDefaultEncoding("UTF-8");
         ms.addBasenames("messages.commons", "messages.errors", "messages.validations");
+
         return ms;
     }
+
 }

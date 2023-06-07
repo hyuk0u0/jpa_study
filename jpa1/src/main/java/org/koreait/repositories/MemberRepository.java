@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member> {
-//    Member findMemberByUserId(String userId);
+    //Member findMemberByUserId(String userId);
     Member findByUserId(String userId); // userId=:userId
 
     List<Member> findByUserNmContaining(String keyword, Pageable pageable); // userNm LIKE %:keyword:%

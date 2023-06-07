@@ -20,11 +20,11 @@ public class JoinValidator implements Validator, MobileValidator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        JoinForm joinForm = (JoinForm) target;
-        /*
-        아이디 중복 여부
-        비밀번호, 비밀번호 확인 일치
-        휴대전화번호 검증
+        JoinForm joinForm = (JoinForm)target;
+        /**
+         * 1. 아이디 중복 여부
+         * 2. 비밀번호, 비밀번호 확인 일치 
+         * 3. 휴대전화번호 검증
          */
         String userId = joinForm.getUserId();
         String userPw = joinForm.getUserPw();
@@ -37,7 +37,8 @@ public class JoinValidator implements Validator, MobileValidator {
         }
 
         // 2. 비밀번호, 비밀번호 확인 일치여부
-        if (userPw != null && !userPw.isBlank() && userPwRe != null && !userPwRe.isBlank() && !userPw.equals(userPwRe)) {
+        if (userPw != null && !userPw.isBlank()
+                && userPwRe != null && !userPwRe.isBlank() && !userPw.equals(userPwRe)) {
             errors.rejectValue("userPwRe", "Incorrect.joinForm.userPwRe");
         }
 

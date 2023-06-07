@@ -12,10 +12,10 @@ public class Product extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
-    @Column(length = 100, nullable = false)
+    @Column(length=100, nullable = false)
     private String productNm;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch=FetchType.LAZY)
     @ToString.Exclude
     private List<Seller> sellers = new ArrayList<>();
 }

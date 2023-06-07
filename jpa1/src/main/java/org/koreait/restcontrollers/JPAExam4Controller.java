@@ -22,6 +22,7 @@ public class JPAExam4Controller {
                 .userPw("123456")
                 .memberType(MemberType.USER)
                 .build();
+
         memberRepository.saveAndFlush(member);
     }
 }

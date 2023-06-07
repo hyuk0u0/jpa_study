@@ -16,9 +16,7 @@ import java.util.List;
 @RequestMapping("/jpa/exam3")
 @RequiredArgsConstructor
 public class JPAExam3Controller {
-
     private final SellerRepository sellerRepository;
-
     private final ProductRepository productRepository;
 
     private void insertData() {
@@ -47,8 +45,7 @@ public class JPAExam3Controller {
             seller.setProducts(products);
         }
 
-        sellerRepository.flush();;
-
+        sellerRepository.flush();
     }
 
     @GetMapping("/ex01")
